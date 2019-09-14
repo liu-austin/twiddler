@@ -41,6 +41,7 @@
         };
         $('.create-twiddle').on('click', createTwiddle);
         var refreshFeed = function() {
+          $('div').remove('.tweetEntry');
           streams.home.forEach(function(tweet) {
             var $tweet = $('<div class="tweetEntry"><div class="tweetEntry-content"> <a class="tweetEntry-account-group" ></a><div class="tweetEntry-text-container"></div></div></div>');
           $tweet.appendTo($mid);
