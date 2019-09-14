@@ -2,24 +2,117 @@
 <html>
   <head>
     <script src="jquery.js"></script>
+    <script src="moment.min.js"></script>
     <script src="data_generator.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
   <body>
+    <div style="background-color: #1089ff;"><h1 class="title">Twiddler</h1></div>
+      <div class="row">
+          <div style="border-top: 0; height: 940px; border-right: 1px solid #eeeeee;" class="column left"><div class='bordered'><h1 class='centered top'>VIEW A TIMELINE</h1></div></div>
+          <div style="border-top: 0; height: 940px; border-right: 1px solid #eeeeee;" class="column middle"><div class='bordered'><h1 class='centered top'>YOUR FEED</h1></div></div>
+          <div class="column right"><div class='bordered'><h1 class='centered top'>OPTIONS</h1></div></div>
+        </div>
     <script>
-
+      var visitor = 'guest';
       $(document).ready(function(){
         var $body = $('body');
-        $body.html('');
+        var $left = $('.left');
+        var $mid = $('.middle');
+        var $right = $('.right');
+        var $refreshFeedButton = $('<div class="display-refresh-button"><div class="refresh-button"><button class="refresh">REFRESH FEED</button></div></div>');
+        $refreshFeedButton.appendTo('.right');
+        var $createTwiddleButton = $('<div class="display-create-twiddle"><div class="create-twiddle-button"><button class="create-twiddle">CREATE TWIDDLE</button></div></div>');
+        $createTwiddleButton.appendTo('.right');
+        var createTwiddle = function() {
+          $('div').remove('.display-form');
+          var $twiddleForm = $('<div class="display-form"><label for="twiddle-handle">TWIDDLE NAME</label><input id="twiddle-handle" class="twiddle-handle" type="text" value="" /><br><label for="twiddle-message">TWIDDLE MESSAGE</label><input id="twiddle-message" class="twiddle-message" type="text" value="" /><br><button class="submit-twiddle">SUBMIT</button></div>');
+          $twiddleForm.appendTo('.right');
+          var submitTwiddle = function() {
+            visitor = $('.twiddle-handle').val();
+            if (!streams.users[visitor]) {
+              streams.users[visitor] = [];
+            }
+            var message = $('.twiddle-message').val();
+            $('div').remove('.display-form');
+            writeTweet(message);
+          };
+          $('.submit-twiddle').on('click', submitTwiddle);
+        };
+        $('.create-twiddle').on('click', createTwiddle);
+        var refreshFeed = function() {
+          streams.home.forEach(function(tweet) {
+            var $tweet = $('<div class="tweetEntry"><div class="tweetEntry-content"> <a class="tweetEntry-account-group" ></a><div class="tweetEntry-text-container"></div></div></div>');
+          $tweet.appendTo($mid);
+          var $timestamp = $('<span class="tweetEntry-timestamp"></span>');
+          $timestamp.prependTo('.tweetEntry-account-group');
+          $timestamp.text(' - [' + moment(tweet.created_at, "YYYY-MM-DDTh:mm:ss a").fromNow() + ']');
+          var $username = $('<span class="tweetEntry-username"><b></b> </span>');
+          $username.prependTo('.tweetEntry-account-group');
+          $username.text(' @'+tweet.user);
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
+          $('.tweetEntry-username').on('click', renderTimeline);
+          var $fullName = $('<strong class="tweetEntry-fullname"></strong>');
+          $fullName.prependTo('.tweetEntry-account-group');
+          $fullName.text(tweet.user + ' ');
+          var $profilePic = $('<img class="tweetEntry-avatar" src="">');
+          $profilePic.prependTo('.tweetEntry-account-group');
+          var profilePicLink = "http://placekitten.com/100/" + (Math.round(Math.random() * 20 + 90));
+          $profilePic.attr("src", profilePicLink);
+          var $tweetMessageArea = $('<div class="tweetEntry-text-container"></div>');
+          $tweetMessageArea.appendTo($('.tweetEntry-content'));
+          $tweetMessageArea.text(tweet.message);
+          });
+        };
+        $('.refresh').on('click', refreshFeed);
+        var renderTimeline = function() {
+          var $timelineUsername = $('<div class="display-timeline"><div class="timeline-username"></div></div>');
+          $('div').remove('.display-timeline');
+          $('div').remove('.tweetEntry.timeline');
+          $timelineUsername.appendTo('.left');
+          var usernameText = this.innerHTML.slice(2);
+          $timelineUsername.text(usernameText.toUpperCase() + ' - ' + this.innerHTML);
+          var $showTwiddlesButton = $('<button class="show-twiddles">SHOW TWIDDLES</button>');
+          $('button').remove('.show-twiddles');
+          $showTwiddlesButton.appendTo('.left');
+          var isShown = false;
+          $tweetTimeline = $('<div class="tweetEntry timeline"><div class="tweetEntry-content"> <a class="tweetEntry-account-group timeline" ></a><div class="tweetEntry-text-container"></div></div></div>');
+          var userTweets = streams.users[usernameText];
+          var showTwiddles = function() {
+            isShown = !isShown;
 
+            if (isShown) {
+              $('div').remove('.tweetEntry.timeline');
+              userTweets.forEach(function(userTweet) {
+              $tweetTimeline = $('<div class="tweetEntry timeline"><div class="tweetEntry-content timeline"> <a class="tweetEntry-account-group timeline" ></a><div class="tweetEntry-text-container"></div></div></div>');
+              $tweetTimeline.appendTo('.left');
+              var $timestampTimeline = $('<span class="tweetEntry-timestamp timeline"></span>');
+              $timestampTimeline.prependTo('.tweetEntry-account-group.timeline');
+              $timestampTimeline.text(' - [' + moment(userTweet.created_at, "YYYY-MM-DDTh:mm:ss a").fromNow() + ']');
+              var $usernameTimeline = $('<span class="tweetEntry-username timeline"><b></b> </span>');
+              $usernameTimeline.prependTo('.tweetEntry-account-group.timeline');
+              $usernameTimeline.text(' @'+userTweet.user);
+              var $fullNameTimeline = $('<strong class="tweetEntry-fullname timeline"></strong>');
+              $fullNameTimeline.prependTo('.tweetEntry-account-group.timeline');
+              $fullNameTimeline.text(userTweet.user + ' ');
+              var $profilePicTimeline = $('<img class="tweetEntry-avatar timeline">');
+              $profilePicTimeline.prependTo('.tweetEntry-account-group.timeline');
+              var profilePicLinkTimeline = "http://placekitten.com/100/" + (Math.round(Math.random() * 20 + 90));
+              $profilePicTimeline.attr("src", profilePicLinkTimeline);
+              var $tweetMessageAreaTimeline = $('<div class="tweetEntry-text-container timeline"></div>');
+              $tweetMessageAreaTimeline.appendTo($('.tweetEntry-content.timeline'));
+              $tweetMessageAreaTimeline.text(userTweet.message);
+            });
+              $showTwiddlesButton.text('HIDE TWIDDLES');
+            } else {
+              $('div').remove('.tweetEntry.timeline');
+              $showTwiddlesButton.text('SHOW TWIDDLES');
+            }
+
+
+          };
+          $('.show-twiddles').on('click', showTwiddles);
+};
       });
 
     </script>

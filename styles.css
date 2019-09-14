@@ -1,0 +1,187 @@
+body {
+  font-family: Arial,sans-serif;
+  color: #292f33;
+}
+
+/* This element would be replaced by where you want the templates. */
+.tweetEntry-tweetHolder {
+  border-left: 1px solid #e1e8ed;
+  border-right: 1px solid #e1e8ed;
+  border-top: 1px solid #e1e8ed;
+  width: 588px;
+  margin: auto;
+  border-radius: 5px;
+}
+
+/* The action list is optional. */
+.tweetEntry-action-list {
+  display: block;
+  line-height: 18px;
+  margin-left: 58px;
+  margin-top: 10px;
+  color: #292f33;
+}
+.fa-reply:hover {
+  color: #292f33;
+}
+.fa-retweet:hover {
+  color: #5cd65c;
+}
+.fa-heart:hover {
+  color: #ff3333;
+}
+/************************/
+
+.tweetEntry {
+  border-bottom: 1px solid #e1e8ed;
+  min-height: 51px;
+  padding: 9px 12px;
+  /* width: 33%; */
+}
+.tweetEntry-content {
+  display: block;
+  font-size: 14px;
+  margin-left: 58px;
+  font-size: 14px;
+}
+.tweetEntry-account-group {
+  color: #8899a6;
+  padding: 0px;
+  text-decoration: none;
+  line-height: 20px;
+}
+.tweetEntry-avatar {
+  float: left;
+  height: 48px;
+  width: 48px;
+  margin-left: -58px;
+  border-radius: 5px;
+}
+
+.tweetEntry-avatar:hover {
+  width: 10%;
+  height: 10%;
+}
+
+.tweetEntry-fullname {
+  font-weight: bold;
+  font-size: 14px;
+  color: #292f33;
+  padding: 0px;
+}
+.tweetEntry-username {
+  font-weight: bold;
+  font-size: 14px;
+  color: #b1bbc3;
+  padding: 0px;
+  cursor: pointer;
+}
+.tweetEntry-timestamp {
+  font-size: 14px;
+  color: #b1bbc3;
+  padding: 0px;
+}
+.tweetEntry-text-container {
+  font-size: 14px;
+  color: #292f33;
+  line-height: 18px;
+}
+
+.optionalMedia {
+  margin-left: 58px;
+  margin-top: 10px;
+}
+.optionalMedia-img {
+  border-radius: 5px;
+  max-width: 506px;
+  max-height: 506px;
+
+}
+
+.column {
+  float: left;
+  width: 33%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.centered {
+  text-align: center;
+}
+
+.top {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 30px 50px 30px 50px;
+}
+
+.title {
+  margin: 0 auto;
+  padding: 20px 0 20px 0;
+  text-align: center;
+  color: white;
+}
+
+.bordered {
+  border-bottom: 2px solid #eeeeee;
+}
+
+.display-timeline {
+  margin: 0;
+  padding: 20px 0 20px 0;
+  font-size: 25px;
+  text-align: center;
+  border-bottom: 2px #eeeeee solid;
+}
+
+.show-twiddles {
+  color: white;
+  background-color: #1089ff;
+  font-size: 25px;
+  text-align: center;
+  width: 100%;
+  height: 10%;
+  cursor: pointer;
+}
+
+.refresh {
+  color: white;
+  background-color: #1089ff;
+  font-size: 25px;
+  text-align: center;
+  width: 100%;
+  height: 10%;
+  cursor: pointer;
+  padding: 20px 0 20px 0;
+  margin: 0;
+}
+
+.create-twiddle, .submit-twiddle {
+  color: white;
+  background-color: #1089ff;
+  font-size: 25px;
+  text-align: center;
+  width: 100%;
+  height: 10%;
+  cursor: pointer;
+  padding: 20px 0 20px 0;
+  margin-top: 20px;
+}
+
+.display-form {
+  padding: 20px 0 20px 0;
+  font-size: 25px;
+  text-align: left;
+  border-bottom: 2px #eeeeee solid;
+}
+
+input {
+  margin-left: 10px;
+  margin-bottom: 20px;
+  width: 90%;
+}
